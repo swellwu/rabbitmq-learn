@@ -29,17 +29,20 @@ public class Work {
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         System.out.println(hashCode
                 + " [*] Waiting for messages. To exit press CTRL+C");
-
         QueueingConsumer consumer = new QueueingConsumer(channel);
-        // 指定消费队列
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        // 指定消费队列,自动应答为true表示一分发消息立刻完成应答，也即不管执行情况，为false表示需要手动来应答
+        boolean autoAck = false;
+        channel.basicConsume(QUEUE_NAME, autoAck, consumer);
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
             System.out.println(hashCode + " [x] Received '" + message + "'");
             doWork(message);
             System.out.println(hashCode + " [x] Done");
+            //发送应答
+            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
+
     }
 
     /**
