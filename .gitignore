@@ -1,0 +1,26 @@
+*.log
+target/
+.settings/
+local/
+classes/
+MANIFEST.MF
+/local/*
+/.idea/
+/.settings/
+*.classpath
+*.project
+*.iml
+
+log/
+disconf/download/
+*.ipr
+*.iws
+bin/
+#git file
+*.orig
+
+#mac
+#DS_Store
+
+#windows
+Thumbs.db
