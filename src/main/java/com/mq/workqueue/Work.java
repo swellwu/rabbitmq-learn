@@ -26,7 +26,8 @@ public class Work {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         //声明队列
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        boolean durable = true;
+        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
         System.out.println(hashCode
                 + " [*] Waiting for messages. To exit press CTRL+C");
         QueueingConsumer consumer = new QueueingConsumer(channel);
