@@ -28,6 +28,9 @@ public class Work {
         //声明队列
         boolean durable = true;
         channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
+        //设置最大服务转发消息数量
+        int prefetchCount = 1;
+        channel.basicQos(prefetchCount);
         System.out.println(hashCode
                 + " [*] Waiting for messages. To exit press CTRL+C");
         QueueingConsumer consumer = new QueueingConsumer(channel);

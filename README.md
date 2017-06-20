@@ -23,7 +23,7 @@
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
 ```
-## 消息持久化
+### 消息持久化
 消息持久化可以在rabbitmq崩溃时将消息保存到磁盘上，不会丢失消息，待服务重启后继续处理消息。
 1. 声明为持久化队列
 ```
@@ -35,3 +35,10 @@
 ```
     channel.basicPublish("", "task_queue",MessageProperties.PERSISTENT_TEXT_PLAIN,message.getBytes());
 ```
+### 公平转发
+ 公平转发，设置每个消费者最大待处理消息数量。
+ ```
+         //设置最大服务转发消息数量
+         int prefetchCount = 1;
+         channel.basicQos(prefetchCount);
+ ```
