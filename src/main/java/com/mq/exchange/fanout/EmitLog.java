@@ -1,4 +1,4 @@
-package com.mq.exchange;
+package com.mq.exchange.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

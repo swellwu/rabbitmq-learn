@@ -1,16 +1,9 @@
-package com.mq.exchange;
+package com.mq.exchange.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.io.File;
-import java.io.FileOutputStream;
 
 /**
  * <p>Description:</p>
@@ -18,12 +11,11 @@ import java.io.FileOutputStream;
  * @author xinjian.wu
  * @date 2017-06-20
  */
-public class ReceiveLogsToSave {
+public class ReceiveLogsToConsole {
     private final static String EXCHANGE_NAME = "ex_log";
 
     public static void main(String[] argv) throws java.io.IOException,
-            java.lang.InterruptedException
-    {
+            java.lang.InterruptedException {
         // 创建连接和频道
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
@@ -45,25 +37,7 @@ public class ReceiveLogsToSave {
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
-            print2File(message);
-        }
-
-    }
-
-    private static void print2File(String msg)
-    {
-        try {
-            String dir = ReceiveLogsToSave.class.getClassLoader().getResource("").getPath();
-            String logFileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            File file = new File(dir, logFileName+".txt");
-            FileOutputStream fos = new FileOutputStream(file, true);
-            fos.write((msg + "\r\n").getBytes());
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(" [x] Received '" + message + "'");
         }
     }
 }
