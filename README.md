@@ -51,3 +51,29 @@
  4. Fanout - 类似广播机制，一个消息发送到所有消费者
  5. "" - 匿名转发器,每个消息发送给一个消费者
  
+ 生产者步骤：
+ 1. 声明转发器类型：
+ ```
+     //声明转发器
+     Exchange.DeclareOk exchangeDeclare(String exchange, String type)
+     eg:
+     channel.exchangeDeclare(EXCHANGE_NAME,"direct");
+ ```
+ 2. 发送消息给转发器
+ ```
+    void basicPublish(String exchange, String routingKey, BasicProperties props, byte[] body)
+ ```
+ 消费者步骤：
+ ```
+     // 声明direct类型转发器
+     channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+    
+     String queueName = channel.queueDeclare().getQueue();
+     String severity = getSeverity();
+     // 指定binding_key
+     channel.queueBind(queueName, EXCHANGE_NAME, severity);
+     System.out.println(" [*] Waiting for " + severity + " logs. To exit press CTRL+C");
+    
+     QueueingConsumer consumer = new QueueingConsumer(channel);
+     channel.basicConsume(queueName, true, consumer);
+ ```
