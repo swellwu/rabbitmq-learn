@@ -42,3 +42,12 @@
          int prefetchCount = 1;
          channel.basicQos(prefetchCount);
  ```
+ ## 转发器 Exchange
+ 生产者只能把消息发给转发器，由转发器发给对应队列。
+ 转发器类型：
+ 1. Direct
+ 2. Topic
+ 3. Headers
+ 4. Fanout - 类似广播机制，一个消息发送到所有消费者
+ 5. "" - 匿名转发器
+ 
